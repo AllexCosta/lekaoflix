@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const VideoCardContainer = styled.a`
   border: 2px solid;
+  z-index: auto;
   border-radius: 4px;
   text-decoration: none;
   overflow: hidden;
@@ -18,13 +19,14 @@ export const VideoCardContainer = styled.a`
   display: flex;
   align-items: flex-end;
   padding: 16px;
+  justify-content: center;
 
-  transition: opacity .3s;
+  transition: transform 450ms;
   &:hover,
   &:focus {
-    opacity: .5;
+    transform:scale(1.2);
   }
-  
+    
   &:not(:first-child) {
     margin-left: 20px;
   }
