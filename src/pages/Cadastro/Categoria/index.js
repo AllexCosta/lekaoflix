@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
-import {Form, Title, ButtonSave} from './style';
+import { Form, Title, ButtonSave, LinkVoltar } from './style';
 
 function CadastroCategoria() {
   const valoresIniciais = {
@@ -58,7 +57,7 @@ function CadastroCategoria() {
           value={values.descricao}
           onChange={handleChange}
         />
-        
+
         <FormField
           label="Cor"
           name="cor"
@@ -67,9 +66,21 @@ function CadastroCategoria() {
           onChange={handleChange}
         />
 
+        <FormField
+          label="Código de Segurança"
+          name="Código"
+          type="text"
+          value={values.cor}
+          onChange={handleChange}
+        />
+
         <ButtonSave>
           Cadastrar
         </ButtonSave>
+
+        <LinkVoltar to="/cadastro/video">
+          Voltar
+        </LinkVoltar>
       </Form>
 
 
@@ -82,10 +93,7 @@ function CadastroCategoria() {
           )
         })}
       </ul>
-
-      <Link to="/">
-        Ir para home
-      </Link>
+      
     </PageDefault>
   );
 }

@@ -15,15 +15,16 @@ export const Title = styled.h1`
   text-align: center;
 `;
 
-export const ButtonSave = styled.button`
+export const ButtonSalvar = styled.button`
   padding: 0 20px;
+  margin-right: 20px;
   border: 0;
   border-radius: 5px;
   height: 40px;
   font-size: 14px;
   font-weight: 600;
-  background-color: var(--primary);
   color: #fff;
+  background-color: var(--primary);
   cursor: pointer;
   outline:none;
   &:focus {
@@ -34,23 +35,28 @@ export const ButtonSave = styled.button`
   }
 `;
 
-export const LinkVoltar = styled(Link)`
+export const ButtonLimpar = styled.button`
+  padding: 0 20px;
+  margin-left: 20px;
+  border: 0;
+  border-radius: 5px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #9E9E9E;
+  cursor: pointer;
+  outline:none;
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+export const LinkCadastrar = styled(Link)`
   position: relative;
   display: block;
   margin-block: 10px;
-`;
-
-export const Table = styled.table`
-  width: 500px;
-  margin: 20px auto;
-  border-spacing: 0;
-  @media (max-width: 800px) {
-    width: 100%;
-    padding: 0 20px;
-  }
-  th, tr, td {
-    border: 1px solid #fff;
-    padding: 10px 20px;
-    text-align: center;
-  }
 `;

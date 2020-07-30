@@ -18,20 +18,20 @@ export const Label = styled.label`
   position: absolute;
   top: 45%;
   left: 20px;
-  color: var(--black);
+  color: #C2C2C2;
   transform: translateY(-40%);
 `;
 
 export const InputArea = styled.input`
   width: 100%;
   height: 60px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--white);
   outline: none;
   border-radius: 4px;
+  background-color: #53585D;
   padding: 25px 20px 5px 20px;
   &:focus,
-  &:valid {
-    background-color: #f3f3f3;
+  &::after {
     border: 2px solid var(--primary);
   }
   &:focus + .descricaoLabel,
@@ -51,7 +51,6 @@ export const TextArea = styled.textarea`
   padding: 25px 20px 0 20px;
   &:focus,
   &:valid {
-    background-color: #f3f3f3;
     border: 2px solid var(--primary);
   }
   &:focus + .descricaoLabel,
