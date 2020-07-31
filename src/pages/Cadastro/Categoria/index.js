@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
-import { Form, Title, LinkVoltar } from './style';
 import { ButtonAuxiliar } from '../../../components/Button';
 
 const CadastroCategoria = () => {
@@ -10,7 +10,6 @@ const CadastroCategoria = () => {
     nome: '',
     descricao: '',
     cor: '',
-    codigo: '',
   };
   const [values, setValues] = useState(valoresIniciais);
   const setValue = (chave, valor) => {
@@ -31,11 +30,23 @@ const CadastroCategoria = () => {
       Evento.target.value,
     );
   }
+
+  useEffect(() => {
+    const url = 'http://localhost:8080/categorias';
+    fetch(url)
+      .then(async (respostaServidor) => {
+        const resposta = await respostaServidor.json();
+        setCategorias([
+          ...resposta,
+        ]);
+      });
+  }, []);
+
   return (
     <PageDefault>
-      <Title>Cadastro de Categoria</Title>
+      <h1>Cadastro de Categoria</h1>
 
-      <Form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
 
         <FormField
           label="Categoria"
@@ -61,31 +72,28 @@ const CadastroCategoria = () => {
           onChange={handleChange}
         />
 
-        <FormField
-          label="Código de Segurança"
-          type="text"
-          name="Código"
-          value={values.codigo}
-          onChange={handleChange}
-        />
-
         <ButtonAuxiliar type="subimt">
           Cadastrar
         </ButtonAuxiliar>
-
-        <LinkVoltar to="/cadastro/video">
-          Voltar
-        </LinkVoltar>
-      </Form>
+      </form>
 
       <ul>
-        {categorias.map((categoria, { fieldID }) => (
-          <li key={`${fieldID}`}>
-            {categoria.nome}
+        {categorias.map((categoria) => (
+          <li key={`${categoria.nome}`}>
+            {categoria.titulo}
           </li>
         ))}
       </ul>
 
+      {categorias.length === 0 && (
+        <div>
+          Loading...
+        </div>
+      )}
+
+      <Link to="/cadastro/video">
+        Voltar
+      </Link>
     </PageDefault>
   );
 };
