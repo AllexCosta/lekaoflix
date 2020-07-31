@@ -1,7 +1,8 @@
 import React from 'react';
+import styled from 'styled-components';
+import PropsTypes from 'prop-types';
 import Menu from '../Menu';
 import Footer from '../Footer';
-import styled from 'styled-components';
 
 const Main = styled.main`
   background-color: var(--black);
@@ -23,5 +24,9 @@ function PageDefault({ children }) {
     </>
   );
 }
+
+PageDefault.propTypes = {
+  children: PropsTypes.string.isRequired,
+};
 
 export default PageDefault;

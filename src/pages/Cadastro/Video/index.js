@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
-import { Form, Title, ButtonSalvar, ButtonLimpar, LinkCadastrar } from './style';
+import { Form, Title, LinkCadastrar } from './style';
 import CadastroCategoria from '../Categoria';
+import { ButtonAuxiliar, ButtonLimpar } from '../../../components/Button';
 
-function CadastroVideos() {
+const CadastroVideos = () => {
+  const [videos, setVideos] = useState([]);
   const valoresIniciais = {
     nome: '',
     urlVideo: '',
@@ -12,40 +14,37 @@ function CadastroVideos() {
     categoria: '',
     descricao: '',
     cor: '',
-    codigo: ''
-  }
-  const [videos, setVideos] = useState([]);
+    codigo: '',
+  };
   const [values, setValues] = useState(valoresIniciais);
-
-
-  function setValue(chave, valor) {
+  const setValue = (chave, valor) => {
     // chave: nome, descricao, bla, bli
     setValues({
       ...values,
       [chave]: valor, // nome: 'valor'
-    })
-  }
+    });
+  };
+  const handleSubmit = (Evento) => {
+    Evento.preventDefault();
+    setVideos([
+      ...videos,
+      values,
+    ]);
 
-  function handleChange(infosDoEvento) {
+    setValues(valoresIniciais);
+  };
+  const handleChange = (Evento) => {
     setValue(
-      infosDoEvento.target.getAttribute('name'),
-      infosDoEvento.target.value
+      Evento.target.getAttribute('name'),
+      Evento.target.value,
     );
-  }
+  };
 
   return (
     <PageDefault>
       <Title>Novo Video</Title>
 
-      <Form onSubmit={function handleSubmit(infosDoEvento) {
-        infosDoEvento.preventDefault();
-        setVideos([
-          ...videos,
-          values
-        ]);
-
-        setValues(valoresIniciais)
-      }}>
+      <Form onSubmit={handleSubmit}>
 
         <FormField
           label="Titulo"
@@ -57,7 +56,7 @@ function CadastroVideos() {
 
         <FormField
           label="Link do Vídeo"
-          text="text"
+          type="text"
           name="urlVideo"
           value={values.descricao}
           onChange={handleChange}
@@ -65,23 +64,23 @@ function CadastroVideos() {
 
         <FormField
           label="Link da Imagem do Vídeo"
-          name="urlImagem"
           type="text"
+          name="urlImagem"
           value={values.cor}
           onChange={handleChange}
         />
 
         <FormField
           label="Escolha uma Categoria"
-          name="Categoria"
           type="datalist"
+          name="Categoria"
           value={CadastroCategoria.nome}
           onChange={handleChange}
         />
 
         <FormField
           label="Descrição"
-          text="textarea"
+          type="textarea"
           name="descricao"
           value={values.descricao}
           onChange={handleChange}
@@ -89,17 +88,17 @@ function CadastroVideos() {
 
         <FormField
           label="Código de Segurança"
-          name="código"
           type="text"
+          name="código"
           value={values.codigo}
           onChange={handleChange}
         />
 
-        <ButtonSalvar className="btnSalvar">
+        <ButtonAuxiliar type="submit" btnSalvar>
           Salvar
-        </ButtonSalvar>
+        </ButtonAuxiliar>
 
-        <ButtonLimpar className="btnLimpar">
+        <ButtonLimpar btnLimpar>
           Limpar
         </ButtonLimpar>
 
@@ -109,20 +108,16 @@ function CadastroVideos() {
 
       </Form>
 
-
       <ul>
-        {videos.map((categoria, indice) => {
-          return (
-            <li key={`${categoria}${indice}`}>
-              {categoria.nome}
-            </li>
-          )
-        })}
+        {videos.map((video) => (
+          <li key={`${video.name}`}>
+            {video.nome}
+          </li>
+        ))}
       </ul>
-
 
     </PageDefault>
   );
-}
+};
 
 export default CadastroVideos;

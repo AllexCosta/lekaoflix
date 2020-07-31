@@ -1,71 +1,67 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Fields = styled.div`
+export const FormFieldWrapper = styled.div`
   position: relative;
-  margin-bottom: 20px;
+  textarea {
+    min-height: 150px;
+  }
+  input[type="color"] {
+    padding-left: 56px;
+  }
+`;
+
+export const Label = styled.label``;
+Label.Text = styled.span`
+  color: #E5E5E5;
+  height: 57px;
+  position: absolute; 
+  top: 0;
+  left: 16px;
   
-  &:last-of-type {
-    margin-bottom: 40px;
-  }
+  display: flex;
+  align-items: center;
   
-  .descricaoLabel {
-    transition: all 200ms linear;
-  }
+  transform-origin: 0% 0%;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 300;
+  
+  transition: .1s ease-in-out;
 `;
 
-export const Label = styled.label`
-  font-size: 20px;
-  position: absolute;
-  top: 45%;
-  left: 20px;
-  color: #C2C2C2;
-  transform: translateY(-40%);
-`;
-
-export const InputArea = styled.input`
+export const Input = styled.input`
+  background: #53585D;
+  color: #F5F5F5;
+  display: block;
   width: 100%;
-  height: 60px;
-  border: 1px solid var(--white);
-  outline: none;
-  border-radius: 4px;
-  background-color: #53585D;
-  padding: 25px 20px 5px 20px;
-  &:focus,
-  &::after {
-    border: 2px solid var(--primary);
-  }
-  &:focus + .descricaoLabel,
-  &:valid + .descricaoLabel {
-    left: 20px;
-    font-size: 12px;
-    transform: translateY(-100%);        
-  }
-`;
-
-export const TextArea = styled.textarea`
-  width: 100%;
+  height: 57px;
+  font-size: 18px;
+  
+  outline: 0;
+  border: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid #53585D;
+  
+  padding: 16px 16px;
+  margin-bottom: 45px;
+  
   resize: none;
-  border: 1px solid #ddd;
-  outline: none;
   border-radius: 4px;
-  padding: 25px 20px 0 20px;
-  &:focus,
-  &:valid {
-    border: 2px solid var(--primary);
+  transition: border-color .3s;
+  
+  &:focus {
+    border-bottom-color: var(--primary);
   }
-  &:focus + .descricaoLabel,
-  &:valid + .descricaoLabel {
-    left: 20px;
-    font-size: 12px;
-    transform: translateY(-100%);        
+  &:focus:not([type='color']) + ${Label.Text} {
+    transform: scale(.6) translateY(-10px);
   }
-  & + .descricaoLabel {
-    font-size: 14px;
-    font-weight: 600;
-    position: absolute;
-    top: 0;
-    left: 20px;
-    color: var(--white);
-    transform: translateY(-20%);
+  ${({ value }) => {
+    const hasValue = value.length > 0;
+    return hasValue && css`
+      &:not([type='color']) + ${Label.Text} {
+        transform: scale(.6) translateY(-10px);
+      }
+    `;
   }
+}
 `;
