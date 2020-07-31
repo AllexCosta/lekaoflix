@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
-import { Form, Title, LinkCadastrar } from './style';
 import CadastroCategoria from '../Categoria';
 import { ButtonAuxiliar, ButtonLimpar } from '../../../components/Button';
 
@@ -42,9 +42,9 @@ const CadastroVideos = () => {
 
   return (
     <PageDefault>
-      <Title>Novo Video</Title>
+      <h1>Novo Video</h1>
 
-      <Form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
 
         <FormField
           label="Titulo"
@@ -102,11 +102,11 @@ const CadastroVideos = () => {
           Limpar
         </ButtonLimpar>
 
-        <LinkCadastrar to="/cadastro/categoria">
+        <Link to="/cadastro/categoria">
           Cadastrar Categoria
-        </LinkCadastrar>
+        </Link>
 
-      </Form>
+      </form>
 
       <ul>
         {videos.map((video) => (
