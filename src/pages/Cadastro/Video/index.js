@@ -1,43 +1,41 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
+import useForm from '../../../hooks/useForm';
 import FormField from '../../../components/FormField';
-import CadastroCategoria from '../Categoria';
 import { ButtonAuxiliar, ButtonLimpar } from '../../../components/Button';
+import videosRepository from '../../../repositories/videos';
+import categoriasRepository from '../../../repositories/categorias';
 
-const CadastroVideos = () => {
-  const [videos, setVideos] = useState([]);
-  const valoresIniciais = {
-    nome: '',
+function CadastroVideos() {
+  const history = useHistory();
+  const [categorias, setCategorias] = useState([]);
+  const categoryTitles = categorias.map(({ titulo }) => titulo);
+  const { handleChange, values } = useForm({
+    titulo: '',
     urlVideo: '',
     urlImagem: '',
     categoria: '',
-    descricao: '',
-    cor: '',
-    codigo: '',
-  };
-  const [values, setValues] = useState(valoresIniciais);
-  const setValue = (chave, valor) => {
-    // chave: nome, descricao, bla, bli
-    setValues({
-      ...values,
-      [chave]: valor, // nome: 'valor'
-    });
-  };
+  });
+
+  useEffect(() => {
+    categoriasRepository.getAll()
+      .then((categoriasFromServer) => {
+        setCategorias(categoriasFromServer);
+      });
+  }, []);
+
   const handleSubmit = (Evento) => {
     Evento.preventDefault();
-    setVideos([
-      ...videos,
-      values,
-    ]);
+    const categoriaEscolhida = categorias.find((categoria) => categoria.titulo === values.categoria);
 
-    setValues(valoresIniciais);
-  };
-  const handleChange = (Evento) => {
-    setValue(
-      Evento.target.getAttribute('name'),
-      Evento.target.value,
-    );
+    videosRepository.create({
+      titulo: values.titulo,
+      url: values.url,
+      categoriaID: categoriaEscolhida.id,
+    });
+
+    history.push('/');
   };
 
   return (
@@ -48,34 +46,31 @@ const CadastroVideos = () => {
 
         <FormField
           label="Titulo"
-          type="text"
           name="Titulo"
-          value={values.nome}
+          value={values.titulo}
           onChange={handleChange}
         />
 
         <FormField
           label="Link do Vídeo"
-          type="text"
           name="urlVideo"
-          value={values.descricao}
+          value={values.urlVideo}
           onChange={handleChange}
         />
 
         <FormField
           label="Link da Imagem do Vídeo"
-          type="text"
           name="urlImagem"
-          value={values.cor}
+          value={values.urlImagem}
           onChange={handleChange}
         />
 
         <FormField
           label="Escolha uma Categoria"
-          type="datalist"
           name="Categoria"
-          value={CadastroCategoria.nome}
+          value={values.categoria}
           onChange={handleChange}
+          suggestions={categoryTitles}
         />
 
         <FormField
@@ -88,7 +83,6 @@ const CadastroVideos = () => {
 
         <FormField
           label="Código de Segurança"
-          type="text"
           name="código"
           value={values.codigo}
           onChange={handleChange}
@@ -102,22 +96,14 @@ const CadastroVideos = () => {
           Limpar
         </ButtonLimpar>
 
-        <Link to="/cadastro/categoria">
-          Cadastrar Categoria
-        </Link>
-
       </form>
 
-      <ul>
-        {videos.map((video) => (
-          <li key={`${video.name}`}>
-            {video.nome}
-          </li>
-        ))}
-      </ul>
+      <Link to="/cadastro/categoria">
+        Cadastrar Categoria
+      </Link>
 
     </PageDefault>
   );
-};
+}
 
 export default CadastroVideos;

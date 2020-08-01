@@ -32,6 +32,7 @@ export const Button = styled.button`
 export const ButtonAuxiliar = styled(Button)`
   background: var(--primary);
   margin-right: 20px;
+  margin-bottom: 20px;
 `;
 
 export const ButtonLimpar = styled(Button)`

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import { ButtonAuxiliar } from '../../../components/Button';
+import useForm from '../../../hooks/useForm';
+/* import URL from '../../../config'; */
 
 const CadastroCategoria = () => {
   const [categorias, setCategorias] = useState([]);
@@ -11,38 +13,26 @@ const CadastroCategoria = () => {
     descricao: '',
     cor: '',
   };
-  const [values, setValues] = useState(valoresIniciais);
-  const setValue = (chave, valor) => {
-    // chave: nome, descricao, bla, bli
-    setValues({
-      ...values,
-      [chave]: valor, // nome: 'valor'
-    });
-  };
+
+  const { handleChange, values, clearForm } = useForm(valoresIniciais);
+
   const handleSubmit = (Evento) => {
     Evento.preventDefault();
     setCategorias([...categorias, values]);
-    setValues(valoresIniciais);
+    clearForm();
   };
-  function handleChange(Evento) {
-    setValue(
-      Evento.target.getAttribute('name'),
-      Evento.target.value,
-    );
-  }
 
   useEffect(() => {
-    const URL = window.location.hostname.includes('localhost')
+    const URL_TOP = window.location.hostname.includes('localhost')
       ? 'http://localhost:8080/categorias'
       : 'https://lekaoflix.herokuapp.com/categorias';
-    fetch(URL)
+    // E a ju ama variáveis
+    fetch(URL_TOP)
       .then(async (respostaServidor) => {
         const resposta = await respostaServidor.json();
-        setCategorias([
-          ...resposta,
-        ]);
+        setCategorias([...resposta]);
       });
-  }, []);
+  });
 
   return (
     <PageDefault>
@@ -81,7 +71,7 @@ const CadastroCategoria = () => {
 
       <ul>
         {categorias.map((categoria) => (
-          <li key={`${categoria.nome}`}>
+          <li key={`${categoria.titulo}`}>
             {categoria.titulo}
           </li>
         ))}
